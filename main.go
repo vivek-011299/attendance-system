@@ -30,7 +30,7 @@ func main() {
 		log.Fatal(err)
 	}else{
 		fmt.Println("Starting the server at port 5432")
-	}
+	}	
 	
 	defer db.Close()
 

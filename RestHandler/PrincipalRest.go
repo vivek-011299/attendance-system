@@ -2,6 +2,10 @@ package RestHandler
 
 import "net/http"
 
+func PrincipalPage(w http.ResponseWriter, r *http.Request){
+
+}
+
 func PrincipalGetAllStudents(w http.ResponseWriter, r *http.Request) {
 
 }

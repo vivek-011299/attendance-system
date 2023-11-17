@@ -2,14 +2,10 @@ package router
 
 import (
 	"my-project/RestHandler"
-
-	"github.com/gorilla/mux"
 )
 
 func StudentRouter() {
-	router := mux.NewRouter()
-	router.HandleFunc("/student", RestHandler.StudentPage)
-	router.HandleFunc("/punchin", RestHandler.StudentPunchin).Methods("POST")
-	router.HandleFunc("/punchout", RestHandler.StudentPunchout).Methods("POST")
-
+	Router.HandleFunc("/student/search", RestHandler.SearchStudent).Methods("GET")
+	Router.HandleFunc("/student/punchin", RestHandler.StudentPunchin).Methods("POST")
+	Router.HandleFunc("/student/punchout", RestHandler.StudentPunchout).Methods("POST")
 }

@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 	"my-project/beans"
-	"os"
+	"net/http"
+
+	"my-project/router"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -15,24 +17,19 @@ var db *gorm.DB
 var err error
 
 func main() {
-	//loading env variables
-	dialect := os.Getenv("DRIVER")
-	//db_name := os.Getenv("DBNAME")
-	//db_port := os.Getenv("DBPORT")
-	//user := os.Getenv("USER")
-	//password := os.Getenv("PASSWORD")
-	//host:= os.Getenv("HOST")
 	dbURI := "host=localhost user=postgres dbname=attendance sslmode=disable password=postgres port=5432"
 
 	//opening db
-	db, err = gorm.Open(dialect,dbURI)
+	db, err = gorm.Open("postgres",dbURI)
 	if err!=nil{
 		log.Fatal(err)
 	}else{
 		fmt.Println("Starting the server at port 5432")
-	}	
+	}
 	
+	router.InitRouters()
 	defer db.Close()
+	log.Fatal(http.ListenAndServe(":8000",router.Router))
 
 	db.AutoMigrate(&beans.Student{})
 	db.AutoMigrate(&beans.Teacher{})

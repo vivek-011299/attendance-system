@@ -3,6 +3,7 @@ package RestHandler
 import (
 	"fmt"
 	"log"
+	"my-project/ServiceLayer"
 	"my-project/beans"
 	"net/http"
 	"net/url"
@@ -37,6 +38,19 @@ func StudentPunchout(w http.ResponseWriter, r *http.Request){
 		}
 		params, _ := url.ParseQuery(u.RawQuery)
 		fmt.Println(params)
+		stu_id := params.Get("id")
+		_, ok := beans.Pipout[stu_id]
+		if ok{
+			student_obj := beans.StudentAttendance{
+				StudentId: stu_id,
+				PunchIn: beans.Pipout[stu_id],
+				PunchOut: time.Now(),
+			}
+			delete(beans.Pipout, stu_id)
+			ServiceLayer.StudentPunchout(student_obj)
+		}else{
+			fmt.Println("You need to punchin first")
+		}
 }
 
 func SearchStudent(w http.ResponseWriter, r *http.Request){

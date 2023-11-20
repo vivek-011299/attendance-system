@@ -7,6 +7,7 @@ import (
 	"my-project/beans"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 )
 
@@ -22,13 +23,12 @@ func StudentPunchin(w http.ResponseWriter, r *http.Request){
 	}
 	params,_ := url.ParseQuery(u.RawQuery)
 	fmt.Println(params["id"])
-	stu_id := params.Get("id")
-	_, ok := beans.Pipout[stu_id]
-	if ok {
-		fmt.Println("You need to punchout first before punching in")
-	}else{
-		beans.Pipout[stu_id] = time.Now()
+	stu_id,_ := strconv.Atoi(params.Get("id"))
+	student_punchin_obj := beans.StudentAttendance{
+		StudentId: stu_id,
+		PunchIn: time.Now(),
 	}
+	ServiceLayer.StudentPunchin(student_punchin_obj)
 }
 
 func StudentPunchout(w http.ResponseWriter, r *http.Request){
@@ -38,19 +38,12 @@ func StudentPunchout(w http.ResponseWriter, r *http.Request){
 		}
 		params, _ := url.ParseQuery(u.RawQuery)
 		fmt.Println(params)
-		stu_id := params.Get("id")
-		_, ok := beans.Pipout[stu_id]
-		if ok{
-			student_obj := beans.StudentAttendance{
-				StudentId: stu_id,
-				PunchIn: beans.Pipout[stu_id],
-				PunchOut: time.Now(),
-			}
-			delete(beans.Pipout, stu_id)
-			ServiceLayer.StudentPunchout(student_obj)
-		}else{
-			fmt.Println("You need to punchin first")
+		stu_id,_ := strconv.Atoi(params.Get("id"))
+		student_punchout_obj := beans.StudentAttendance{
+			StudentId: stu_id,
+			PunchOut: time.Now(),
 		}
+		ServiceLayer.StudentPunchout(student_punchout_obj)
 }
 
 func SearchStudent(w http.ResponseWriter, r *http.Request){

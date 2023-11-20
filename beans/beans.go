@@ -1,9 +1,13 @@
 package beans
 
-import "time"
+import (
+	"time"
+
+	"github.com/jinzhu/gorm"
+)
 
 type Student struct {
-	Id    string    `json:"roll" gorm:"primary_key; auto_increment"`
+	Id    int    `json:"roll" gorm:"primary_key; auto_increment"`
 	Name  string `json:"name" gorm:"type:varchar(40); not null"`
 	Class int    `json:"class"`
 	Age   int    `json:"age"`
@@ -11,16 +15,16 @@ type Student struct {
 }
 
 type Teacher struct {
-	Id          string    `json:"id" gorm:"primary_key; auto_increment"`
+	Id          int    `json:"id" gorm:"primary_key; auto_increment"`
 	FirstName   string `json:"firstname" gorm:"type:varchar(40); not null"`
 	LastName    string `json:"lastname" gorm:"type:varchar(40)"`
 	PhoneNumber string `json:"phone number" gorm:"type:varchar(40)"`
 }
 
 type StudentAttendance struct {
-	StudentId string `json:"roll" gorm:"primary_key"`
-	PunchIn  time.Time `json:"punchin"`
-	PunchOut time.Time `json:"punchout"`
+	StudentId int `json:"roll" gorm:"type:integer; primary_key"`
+	PunchIn  time.Time `json:"punchin" gorm:"type:TIME"`
+	PunchOut time.Time `json:"punchout" gorm:"type:TIME"`
 }
 
-var Pipout map[string]time.Time
+var Db *gorm.DB

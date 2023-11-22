@@ -7,9 +7,7 @@ import (
 
 
 func InsertPunchin_time(student_obj beans.StudentAttendance){
-	query := fmt.Sprintf("INSERT INTO student_attendance (roll, punchin) VALUES (%d, %v)", student_obj.StudentId, student_obj.PunchIn)
-	result := beans.Db.Raw(query)
-	fmt.Println("result is : ",result.Value)
+	beans.Db.Exec("INSERT INTO student_attendance (roll, punchin) VALUES (?, ?)",student_obj.StudentId, student_obj.PunchIn )
 }
 
 
@@ -21,9 +19,7 @@ func Get_recent_attendance_record(student_id int) beans.StudentAttendance{
 }
 
 func Count_of_records(student_id int) beans.StudentAttendance{
-	count := beans.StudentAttendance{}
-	query := fmt.Sprintf("SELECT * FROM student_attendance WHERE roll = %d",student_id)
-	beans.Db.Raw(query).Scan(&count)
-	//beans.Db.Table("student_attendance").Select("*").Where("roll = ", student_id).Scan(&count)
-	return count
+	count_obj := beans.StudentAttendance{}
+	beans.Db.Exec("SELECT * FROM student_attendance WHERE roll = ?",student_id).Scan(&count_obj)
+	return count_obj
 }

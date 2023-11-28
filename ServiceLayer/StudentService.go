@@ -7,9 +7,13 @@ import (
 )
 
 func StudentPunchin(student_obj beans.StudentAttendance){
-	count_obj := RepoLayer.Count_of_records(student_obj.StudentId)
-	fmt.Println("count obj is :", count_obj)
+	fmt.Println("in service")
+	//count_obj := 
+	RepoLayer.Count_of_records(student_obj.StudentId)
+	//fmt.Println("count obj is :", count_obj)
+	/*
 	if count_obj.PunchIn.IsZero() && count_obj.PunchOut.IsZero(){
+		fmt.Println("inserting time")
 		RepoLayer.InsertPunchin_time(student_obj)
 	}else{
 		latestDayRecord := RepoLayer.Get_recent_attendance_record(student_obj.StudentId)
@@ -20,6 +24,7 @@ func StudentPunchin(student_obj beans.StudentAttendance){
 			RepoLayer.InsertPunchin_time(student_obj)
 		}
 	}
+	*/
 }
 
 

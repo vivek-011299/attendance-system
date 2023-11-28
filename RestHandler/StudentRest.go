@@ -24,7 +24,6 @@ func StudentPunchin(w http.ResponseWriter, r *http.Request){
 	params,_ := url.ParseQuery(u.RawQuery)
 	fmt.Println(params["id"])
 	stu_id,_ := strconv.Atoi(params.Get("id"))
-	fmt.Printf("type of stu_id is %T", stu_id)
 	student_punchin_obj := beans.StudentAttendance{
 		StudentId: stu_id,
 		PunchIn: time.Now(),

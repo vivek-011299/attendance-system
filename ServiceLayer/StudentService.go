@@ -7,27 +7,45 @@ import (
 )
 
 func StudentPunchin(student_obj beans.StudentAttendance){
-	fmt.Println("in service")
-	//count_obj := 
-	RepoLayer.Count_of_records(student_obj.StudentId)
-	//fmt.Println("count obj is :", count_obj)
-	/*
-	if count_obj.PunchIn.IsZero() && count_obj.PunchOut.IsZero(){
-		fmt.Println("inserting time")
-		RepoLayer.InsertPunchin_time(student_obj)
-	}else{
-		latestDayRecord := RepoLayer.Get_recent_attendance_record(student_obj.StudentId)
-		fmt.Println("Latest dy record is :",latestDayRecord)
-		if latestDayRecord.PunchOut.IsZero(){
-			fmt.Println("You need to punchout first for the previous day.")
-		}else{
-			RepoLayer.InsertPunchin_time(student_obj)
+	count_obj := RepoLayer.Count_of_records(student_obj.StudentId)
+	fmt.Println("count obj is :", count_obj)
+	fmt.Println("length of count obj is ", len(count_obj))
+	var flag bool = true
+	for i := 0; i < len(count_obj); i++ {
+		if count_obj[i].PunchOut.IsZero(){
+			flag=false
 		}
 	}
-	*/
+	if len(count_obj)==0{
+		fmt.Println("No student present with student id ",student_obj.StudentId)
+	}else{ 
+		if flag{
+			fmt.Println("inserting time")
+			RepoLayer.InsertPunchin_time(student_obj)
+		}else{
+			fmt.Println("Please punchout for your previous day")
+		}
+	}
 }
 
 
 func StudentPunchout(student_obj beans.StudentAttendance){
-
+	count_obj := RepoLayer.Count_of_records(student_obj.StudentId)
+	fmt.Println("count obj is :", count_obj)
+	fmt.Println("length of count obj is ", len(count_obj))
+	var flag bool = true
+	for i := 0; i < len(count_obj); i++ {
+		if count_obj[i].PunchOut.IsZero(){
+			flag=false
+		}
+	}
+	if len(count_obj)==0{
+		fmt.Println("No student present with student id ",student_obj.StudentId)
+	}else{
+		if flag{
+			fmt.Println("Please punchin before punching out.")
+		}else{
+			RepoLayer.InsertPunchOut(student_obj)
+		}
+	}
 }

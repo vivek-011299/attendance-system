@@ -41,3 +41,20 @@ func Count_of_records(student_id int) []beans.StudentAttendance{
 func InsertPunchOut(student_obj beans.StudentAttendance) {
 	beans.Db.Exec("UPDATE student_attendance SET punchout = ? WHERE roll = ?",student_obj.PunchOut, student_obj.StudentId)
 }
+
+
+func SearchStudent(student_id int) []beans.Student{
+	var student_table []beans.Student
+	rows, err := beans.Db.DB().Query("SELECT * from students where id = "+ strconv.Itoa(student_id))
+	if err!=nil{
+		log.Fatal("Error in searching student", err)
+	}
+	for rows.Next() {
+        var stu_count beans.Student
+		if err := rows.Scan(&stu_count.Id, &stu_count.Name ,&stu_count.Class, &stu_count.Age, &stu_count.Phone); err != nil {
+            fmt.Println("error in scanning", err)
+        }
+        student_table = append(student_table, stu_count)
+    }
+	return student_table
+}

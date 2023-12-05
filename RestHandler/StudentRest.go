@@ -54,5 +54,13 @@ func SearchStudent(w http.ResponseWriter, r *http.Request){
 	}
 	fmt.Println(u.RawQuery)
 	params, _ := url.ParseQuery(u.RawQuery)
-	fmt.Println(params)
+	id,_ := strconv.Atoi(params.Get("id"))
+	fmt.Println("id is ", id)
+	var flag bool = false
+	flag = ServiceLayer.SearchStudent(id)
+	if flag{
+		fmt.Printf("Student with id %d is present", id)
+	}else{
+		fmt.Printf("Student with id %d is not present", id)
+	}
 }

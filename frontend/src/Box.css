@@ -1,0 +1,10 @@
+.box-btn{
+    text-decoration: dashed;
+    padding: 60px;
+}
+.box{
+    margin: 3%;
+    padding: 3%;
+    text-align: center;
+    border: 2px solid red;
+}

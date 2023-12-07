@@ -1,0 +1,6 @@
+.home-box{
+    display: flex;
+    border: 2px solid cyan;
+    justify-content: center;
+    margin-top: 10%;
+  }

@@ -1,13 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
-import {Box} from './Box.js';
+import { MyRoutes } from './MyRoutes.js';
 
 function App() {
   return (
     <div className="App">
-      <Box text="Student"/>
-      <Box text="Teacher"/>
-      <Box text="Principal"/>
+      <MyRoutes/>
     </div>
   );
 }

@@ -1,0 +1,26 @@
+.allStudents{
+    display: flex;
+    border: 1px solid black;
+    margin: 5%;
+}
+.getStudent{
+    margin: 5%;
+    display: flex;
+    border: 1px solid black;
+}
+h3{
+    margin: 2%;
+}
+.ipbox{
+    padding: 5px;
+    width: 20%;
+    height: 2%;
+    margin-top: 2.2%;
+}
+.createStudent{
+    margin: 5%;
+    border: 1px solid black;
+}
+.form-group{
+    margin: 1%;
+}

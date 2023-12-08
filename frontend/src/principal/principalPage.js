@@ -3,7 +3,9 @@ import './principalPage.css'
 function Principal(){
     return(
         <>
-            This is Principal Page
+        <div>
+            
+        </div>
         </>
     );
 }

@@ -11,11 +11,6 @@ import (
 	"time"
 )
 
-func StudentPage(w http.ResponseWriter, r *http.Request){
-	fmt.Println("Here comes student page")
-}
-
-
 func StudentPunchin(w http.ResponseWriter, r *http.Request){
 	u, err:= url.Parse(r.URL.RequestURI())
 	if err!=nil{

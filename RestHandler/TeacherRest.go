@@ -5,16 +5,25 @@ import (
 	"fmt"
 	"log"
 	"my-project/ServiceLayer"
+	"my-project/beans"
 	"net/http"
 	"net/url"
 )
 
 func GetAllStudents(w http.ResponseWriter, r *http.Request){
 	student_details := ServiceLayer.GetAllStudents()
+	w.Header().Set("Content-Type","application/json")
 	if len(student_details)==0{
-		fmt.Println("No records found")
+		data := beans.Student{
+				Id:0,
+				Name:"null",
+				Class:0,
+				Age:0,
+				Phone:"null",	
+		}
+		json.NewEncoder(w).Encode(data)
+
 	}else{
-		w.Header().Set("Content-Type","application/json")
 		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(student_details)
 	}

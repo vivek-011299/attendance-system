@@ -23,10 +23,11 @@ func main() {
 	if err!=nil{
 		log.Fatal(err)
 	}else{
-		fmt.Println("Starting the server at port 5432")
+		fmt.Println("Starting the db at port 5432")
 	}
 	
 	router.InitRouters()
+	fmt.Println("Starting the server at 8000")
 	defer beans.Db.Close()
 	log.Fatal(http.ListenAndServe(":8000",router.Router))
 

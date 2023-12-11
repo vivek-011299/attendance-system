@@ -41,3 +41,13 @@ func GetStudentAttendance(student_id int) []beans.StudentAttendance{
 	}
 	return student_attendance_details
 }
+
+func GetStudentbyID(student_id int) beans.Student{
+	var student_details beans.Student
+	row := beans.Db.DB().QueryRow("Select * from students where id = "+strconv.Itoa(student_id))
+	err := row.Scan(&student_details.Id, &student_details.Name,&student_details.Class,&student_details.Age,&student_details.Phone)
+	if err!=nil{
+		return beans.Student{}
+	}
+	return student_details
+}

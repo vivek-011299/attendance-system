@@ -48,7 +48,10 @@ func GetStudentbyID(w http.ResponseWriter, r *http.Request){
 		log.Fatal(err)
 	}
 	params, _ := url.ParseQuery(u.RawQuery)
-	fmt.Println(params)
+	student_id,_ := strconv.Atoi(params.Get("id"))
+	student_details := ServiceLayer.GetStudentbyID(student_id)
+	w.Header().Set("Content-Type","application/json")
+	json.NewEncoder(w).Encode(student_details)
 }
 
 func CreateStudent(w http.ResponseWriter, r *http.Request){

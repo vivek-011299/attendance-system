@@ -8,6 +8,7 @@ import (
 	"my-project/beans"
 	"net/http"
 	"net/url"
+	"strconv"
 )
 
 func GetAllStudents(w http.ResponseWriter, r *http.Request){
@@ -35,7 +36,11 @@ func GetStudentAttendance(w http.ResponseWriter, r *http.Request){
 		log.Fatal(err)
 	}
 	params, _ := url.ParseQuery(u.RawQuery)
-	fmt.Println(params)
+	stu_id_string := params.Get("id")
+	stu_id, _ := strconv.Atoi(stu_id_string)
+	student_attendance := ServiceLayer.GetStudentAttendance(stu_id)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(student_attendance)
 }
 func GetStudentbyID(w http.ResponseWriter, r *http.Request){
 	u, err := url.Parse(r.URL.RequestURI())

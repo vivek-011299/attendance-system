@@ -51,3 +51,14 @@ func GetStudentbyID(student_id int) beans.Student{
 	}
 	return student_details
 }
+
+
+func InsertStudent(student_obj beans.Student)string{
+	name := student_obj.Name
+	class := strconv.Itoa(student_obj.Class)
+	age := strconv.Itoa(student_obj.Age)
+	phone := student_obj.Phone
+	q := fmt.Sprintf("INSERT INTO students(name,class,age,phone) VALUES('%s',%s,%s,'%s')",name,class,age,phone)
+	beans.Db.Exec(q)
+	return "inserted"
+}

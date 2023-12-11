@@ -19,3 +19,11 @@ func GetStudentbyID(stu_id int) beans.Student{
 	student_details := RepoLayer.GetStudentbyID(stu_id)
 	return student_details
 }
+
+func CreateStudent(student_created_obj beans.Student) string{
+	if student_created_obj.Id!=0 {
+		return "Dont pass"
+	}
+	msg := RepoLayer.InsertStudent(student_created_obj)
+	return msg
+}

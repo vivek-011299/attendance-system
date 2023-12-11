@@ -29,9 +29,10 @@ func main() {
 	router.InitRouters()
 	fmt.Println("Starting the server at 8000")
 	defer beans.Db.Close()
-	log.Fatal(http.ListenAndServe(":8000",router.Router))
-
 	beans.Db.AutoMigrate(&beans.Student{})
 	beans.Db.AutoMigrate(&beans.Teacher{})
 	beans.Db.AutoMigrate(&beans.StudentAttendance{})
+	log.Fatal(http.ListenAndServe(":8000",router.Router))
+
+
 }

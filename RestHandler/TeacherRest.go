@@ -55,5 +55,11 @@ func GetStudentbyID(w http.ResponseWriter, r *http.Request){
 }
 
 func CreateStudent(w http.ResponseWriter, r *http.Request){
-	fmt.Println("crete a student")
+	var student_obj beans.Student
+	err := json.NewDecoder(r.Body).Decode(&student_obj)
+	if err!=nil{
+		log.Fatal("err in create student function", err)
+	}
+	message := ServiceLayer.CreateStudent(student_obj)
+	fmt.Println("message from rest handler", message)
 }

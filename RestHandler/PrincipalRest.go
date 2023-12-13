@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"my-project/ServiceLayer"
+	"my-project/beans"
 	"net/http"
 	"net/url"
 )
@@ -29,7 +30,9 @@ func PrincipalGetStudentbyID(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllTeachers(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("got all teachers")
+	teacher_obj := ServiceLayer.GetAllTeachers()
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(teacher_obj)
 }
 
 func GetTeacherbyID(w http.ResponseWriter, r *http.Request) {
@@ -38,9 +41,19 @@ func GetTeacherbyID(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	params, _ := url.ParseQuery(u.RawQuery)
-	fmt.Println(params)
+	t_id := params.Get("id")
+	teacher_details := ServiceLayer.GetTeacherbyID(t_id)
+	w.Header().Set("Content-Type","application/json")
+	json.NewEncoder(w).Encode(teacher_details)
 }
 
 func CreateTeacher(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("created teacher")
+	var teacher_obj beans.Teacher
+	err := json.NewDecoder(r.Body).Decode(&teacher_obj)
+	if err!=nil{
+		fmt.Println("err in decoding", err);
+	}
+	message := ServiceLayer.CreateTeacher(teacher_obj)
+	fmt.Println(message)
+	json.NewEncoder(w).Encode(teacher_obj)
 }

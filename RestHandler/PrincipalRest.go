@@ -12,12 +12,14 @@ import (
 
 
 func PrincipalGetAllStudents(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	students_obj := ServiceLayer.PrincipalGetAllStudents()
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(students_obj)
 }
 
 func PrincipalGetStudentbyID(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	u, err := url.Parse(r.URL.RequestURI())
 	if err!=nil{
 		log.Fatal(err)
@@ -30,12 +32,14 @@ func PrincipalGetStudentbyID(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetAllTeachers(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	teacher_obj := ServiceLayer.GetAllTeachers()
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(teacher_obj)
 }
 
 func GetTeacherbyID(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	u, err := url.Parse(r.URL.RequestURI())
 	if err!=nil{
 		log.Fatal(err)
@@ -48,6 +52,7 @@ func GetTeacherbyID(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateTeacher(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	var teacher_obj beans.Teacher
 	err := json.NewDecoder(r.Body).Decode(&teacher_obj)
 	if err!=nil{

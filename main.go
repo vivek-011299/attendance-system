@@ -13,7 +13,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-
 func main() {
 	dbURI := "host=localhost user=postgres dbname=attendance sslmode=disable password=postgres port=5432"
 
@@ -33,6 +32,5 @@ func main() {
 	beans.Db.AutoMigrate(&beans.Teacher{})
 	beans.Db.AutoMigrate(&beans.StudentAttendance{})
 	log.Fatal(http.ListenAndServe(":8000",router.Router))
-
 
 }

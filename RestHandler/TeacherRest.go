@@ -12,6 +12,7 @@ import (
 )
 
 func GetAllStudents(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	student_details := ServiceLayer.GetAllStudents()
 	w.Header().Set("Content-Type","application/json")
 	if len(student_details)==0{
@@ -25,12 +26,12 @@ func GetAllStudents(w http.ResponseWriter, r *http.Request){
 		json.NewEncoder(w).Encode(data)
 
 	}else{
-		w.WriteHeader(http.StatusCreated)
 		json.NewEncoder(w).Encode(student_details)
 	}
 }
 
 func GetStudentAttendance(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	u, err := url.Parse(r.URL.RequestURI())
 	if err!=nil{
 		log.Fatal(err)
@@ -43,6 +44,7 @@ func GetStudentAttendance(w http.ResponseWriter, r *http.Request){
 	json.NewEncoder(w).Encode(student_attendance)
 }
 func GetStudentbyID(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	u, err := url.Parse(r.URL.RequestURI())
 	if err!=nil{
 		log.Fatal(err)
@@ -55,6 +57,7 @@ func GetStudentbyID(w http.ResponseWriter, r *http.Request){
 }
 
 func CreateStudent(w http.ResponseWriter, r *http.Request){
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	var student_obj beans.Student
 	err := json.NewDecoder(r.Body).Decode(&student_obj)
 	if err!=nil{

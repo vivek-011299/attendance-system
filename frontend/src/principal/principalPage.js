@@ -6,6 +6,7 @@ function Principal(){
     const [firstname, set_firstname] = useState('');
     const [lastname, set_lastname] = useState('');
     const [phone, set_phone] = useState('');
+    const [all_data, set_all_data] = useState([]);
 
     const f_name = event =>{
         set_firstname(event.target.value);
@@ -22,17 +23,30 @@ function Principal(){
         set_phone('');
     };
     useEffect(()=>{
-        axios.get("http://localhost:8000/teacher/get_all_students")
+        axios.get("http://localhost:8000/principal/get_all_students")
         .then((response)=>{
-            console.log(response)
+            set_all_data(response.data);
+            console.log(response);
         })
-    })
+    },[])
 
     return(
         <>
         <div className="get_all">
             <h3>Get All students</h3>
             <button class="btn btn-primary">Get All students:</button>
+        </div>
+        <div>
+        {
+                all_data.map((data)=>{
+                    return (
+                        <div>
+                            {data.roll}
+                        </div>
+                    );
+
+                })
+            }
         </div>
         <div className="get_id">
             <h3>Get Student with ID:</h3>

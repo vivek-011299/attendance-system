@@ -8,6 +8,7 @@ import (
 
 	"my-project/router"
 
+	"github.com/gorilla/handlers"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	_ "github.com/lib/pq"
@@ -31,6 +32,10 @@ func main() {
 	beans.Db.AutoMigrate(&beans.Student{})
 	beans.Db.AutoMigrate(&beans.Teacher{})
 	beans.Db.AutoMigrate(&beans.StudentAttendance{})
-	log.Fatal(http.ListenAndServe(":8000",router.Router))
+	log.Fatal(http.ListenAndServe(":8000",handlers.CORS( 
+		handlers.AllowedOrigins([]string{"*"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+	)(router.Router)))
 
 }

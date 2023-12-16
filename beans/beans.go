@@ -18,7 +18,7 @@ type Teacher struct {
 	Id          int    `json:"id" gorm:"primary_key; auto_increment"`
 	FirstName   string `json:"firstname" gorm:"type:varchar(40); not null"`
 	LastName    string `json:"lastname" gorm:"type:varchar(40)"`
-	PhoneNumber string `json:"phone number" gorm:"type:varchar(40)"`
+	PhoneNumber string `json:"phonenumber" gorm:"type:varchar(40)"`
 }
 
 type StudentAttendance struct {

@@ -60,7 +60,17 @@ function Principal(){
             set_teacher_id_data(response.data)
         })
     }
-
+    const create_teacher = (e) =>{
+        e.preventDefault();
+        axios.post("http://localhost:8000/principal/create_teacher",{
+            "firstname":firstname,
+            "lastname":lastname,
+            "phonenumber":phone
+        })
+        .then((res)=>{
+            console.log(res)
+        })
+    }
     return(
         <>
         <div className="get_all">
@@ -140,14 +150,14 @@ function Principal(){
                 </div>
                 <div class="form-group">
                 <label for="last_name">Last Name:</label>
-                <input onChange={l_name} value={lastname} class="form-control" id="last_name"/>
+                <input onChange={l_name} value={lastname} type='text' class="form-control" id="last_name"/>
                 </div>
                 <div class="form-group">
                 <label for="ph">Phone number:</label>
-                <input onChange={phone_change} value={phone} class="form-control" id="ph"/>
+                <input onChange={phone_change} value={phone} type='text' class="form-control" id="ph"/>
                 </div>
             </form>
-            <button class="btn btn-info">Create</button>
+            <button onClick={create_teacher} class="btn btn-info">Create</button>
             <button onClick={clear_function} class="btn btn-danger">Clear</button>
         </div>
         </>

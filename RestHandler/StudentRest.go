@@ -12,7 +12,6 @@ import (
 )
 
 func StudentPunchin(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	u, err:= url.Parse(r.URL.RequestURI())
 	if err!=nil{
 		log.Fatal(err)
@@ -28,7 +27,6 @@ func StudentPunchin(w http.ResponseWriter, r *http.Request){
 }
 
 func StudentPunchout(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 		u,err := url.Parse(r.URL.RequestURI())
 		if err!=nil{
 			log.Fatal("error in student punchout", err)
@@ -44,7 +42,6 @@ func StudentPunchout(w http.ResponseWriter, r *http.Request){
 }
 
 func SearchStudent(w http.ResponseWriter, r *http.Request){
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	u, err := url.Parse(r.URL.RequestURI())
 	fmt.Println(u)
 	if err!=nil{

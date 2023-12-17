@@ -1,12 +1,14 @@
 import './teacherPage.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {useState} from 'react'
+import axios from 'axios';
 
 function Teacher(){
     const [name, setName] = useState('');
     const [classValue,setclassValue] = useState('');
     const [age, setage] = useState('');
     const [phone, setphone] = useState('');
+    const [students_data, set_students_data] = useState([]);
 
     const handleName = event =>{
         setName(event.target.value);
@@ -27,13 +29,33 @@ function Teacher(){
         setclassValue('');
         setphone('');
     }
-
+    const getAllStudents = () => {
+        axios.get("http://localhost:8000/teacher/get_all_students")
+        .then((response) => {
+            set_students_data(response.data)
+        })
+    }
     return(
         <>
         <div className="allStudents">
                 <h3>Get all Students:</h3>
-                <button className='btn btn-primary'>Get all Students</button>     
+                <button onClick={getAllStudents} className='btn btn-primary'>Get all Students</button>     
         </div>
+        {
+            students_data.length!==0
+            &&
+            <div>
+                {
+                    students_data.map((data) => {
+                        return(
+                            <div>
+                                {data.name}
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        }
         <div className='getStudent'>
             <h3>Get student details by roll number:</h3>
             <input className='ipbox' placeholder='Enter the id here'></input>

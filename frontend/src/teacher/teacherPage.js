@@ -9,7 +9,19 @@ function Teacher(){
     const [age, setage] = useState('');
     const [phone, setphone] = useState('');
     const [students_data, set_students_data] = useState([]);
+    const [stu_id, set_stu_id] = useState('');
+    const [stu_detail, set_student_detail] = useState({});
+    const [stu_attend, set_stu_attend] = useState('');
+    const [stu_attend_block, set_stu_attend_block] = useState([]);
+    const [created_stu, set_created_stu] = useState('');
 
+    const stu_attend_box = (event) => {
+        set_stu_attend(event.target.value)
+    }
+
+    const setting_roll = (event) => {
+        set_stu_id(event.target.value)
+    }
     const handleName = event =>{
         setName(event.target.value);
     };
@@ -29,10 +41,41 @@ function Teacher(){
         setclassValue('');
         setphone('');
     }
+    const create_student = (e) => {
+        e.preventDefault();
+        if(name==='' || classValue==='' || age==='' || phone==='')
+        {
+            set_created_stu('Set all fields before proceeding')
+        }
+        else
+        {
+            axios.post("http://localhost:8000/teacher/create_student",{
+                "name":name,
+                "class":parseInt(classValue),
+                "age":parseInt(age),
+                "phone":phone
+            })
+            .then((res)=>{
+                console.log(res.data)
+            })
+        }
+    }
     const getAllStudents = () => {
         axios.get("http://localhost:8000/teacher/get_all_students")
         .then((response) => {
             set_students_data(response.data)
+        })
+    }
+    const get_student_attend_detail = () => {
+        axios.get("http://localhost:8000/teacher/get_student_attendance?id="+stu_attend)
+        .then((response)=>{
+            set_stu_attend_block(response.data)
+        })
+    }
+    const get_student_detail = () =>{
+        axios.get("http://localhost:8000/teacher/get_student?id="+stu_id)
+        .then((res)=>{
+            set_student_detail(res.data)
         })
     }
     return(
@@ -58,14 +101,40 @@ function Teacher(){
         }
         <div className='getStudent'>
             <h3>Get student details by roll number:</h3>
-            <input className='ipbox' placeholder='Enter the id here'></input>
-            <button class="btn btn-info">Search</button>
+            <input className='ipbox' value={stu_id} onChange={setting_roll} placeholder='Enter the id here'></input>
+            <button onClick={get_student_detail} class="btn btn-info">Search</button>
         </div>
+        {
+            JSON.stringify(stu_detail)!=="{}"
+            &&
+            <div>
+                {
+                    stu_detail.name
+                }
+            </div>
+        }
         <div className='getStudentAttendance'>
             <h3>Get student attendance details by roll number:</h3>
-            <input className='ipbox' placeholder='Enter the id here'></input>
-            <button class="btn btn-info">Search</button>
+            <input className='ipbox' value={stu_attend} onChange={stu_attend_box} placeholder='Enter the id here'></input>
+            <button onClick={get_student_attend_detail} class="btn btn-info">Search</button>
         </div>
+        {
+            stu_attend_block.length!==0
+            &&
+            <div>
+                {
+                    stu_attend_block.map((data)=>{
+                        return(
+                            <div>
+                                {data.roll},
+                                {data.punchin},
+                                {data.punchout}
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        }
         <div className='createStudent'>
             <h3>Create student:</h3>
             <form>
@@ -86,9 +155,17 @@ function Teacher(){
                 <input onChange={handlePhone} value={phone} class="form-control" id="ph"/>
                 </div>
             </form>
-            <button class="btn btn-info">Create</button>
+            <button onClick={create_student} class="btn btn-info">Create</button>
             <button onClick={handleClear} class="btn btn-danger">Clear</button>
         </div>
+        {
+            created_stu!==''
+            &&
+            <div>
+                {created_stu}
+            </div>
+        }
+        
         </>
     );
 }

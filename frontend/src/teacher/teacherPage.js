@@ -2,6 +2,7 @@ import './teacherPage.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {useState} from 'react'
 import axios from 'axios';
+import { DialogBox } from '../dialog.js';
 
 function Teacher(){
     const [name, setName] = useState('');
@@ -14,6 +15,9 @@ function Teacher(){
     const [stu_attend, set_stu_attend] = useState('');
     const [stu_attend_block, set_stu_attend_block] = useState([]);
     const [created_stu, set_created_stu] = useState('');
+    const [delete_stu_id,set_delete_stu_id] = useState('');
+    const [delete_area, set_delete_area] = useState('');
+    const [state, setStateopen] = useState(false);
 
     const stu_attend_box = (event) => {
         set_stu_attend(event.target.value)
@@ -57,6 +61,7 @@ function Teacher(){
             })
             .then((res)=>{
                 console.log(res.data)
+                set_created_stu('Created')
             })
         }
     }
@@ -72,12 +77,38 @@ function Teacher(){
             set_stu_attend_block(response.data)
         })
     }
+    const delete_student_box= (e) =>{
+        set_delete_stu_id(e.target.value);
+    }
     const get_student_detail = () =>{
         axios.get("http://localhost:8000/teacher/get_student?id="+stu_id)
         .then((res)=>{
             set_student_detail(res.data)
         })
     }
+    const delete_student = () =>{
+        if(delete_stu_id==='')
+        {
+            set_delete_area('Please provide an id');
+        }
+        else{
+            axios.delete("http://localhost:8000/teacher/delete_student?id="+delete_stu_id)
+            .then((res)=>{
+                set_delete_area('Deleted student with id '+delete_stu_id)
+            })
+        }
+        setState();
+    }
+    const setState = () => {
+        if(state===true)
+        {
+            setStateopen(false);
+        }
+        else{
+            setStateopen(true);
+        }
+    }
+
     return(
         <>
         <div className="allStudents">
@@ -165,7 +196,21 @@ function Teacher(){
                 {created_stu}
             </div>
         }
+        <div className='delete_box'>
+            <h3>Delete a student:</h3>
+            <input className='ipbox' value={delete_stu_id} onChange={delete_student_box} placeholder='Enter the id here'></input>
+            <button onClick={delete_student} class="btn btn-danger">Delete</button>
         
+        {   
+            delete_area!==''
+            &&
+            <div>
+                {
+                <DialogBox heading="Message" message={delete_area} state={state} openFunction={setState}/>
+                }
+            </div>
+        }
+        </div>
         </>
     );
 }

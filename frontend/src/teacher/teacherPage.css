@@ -29,3 +29,8 @@ h3{
     margin: 5%;
     display:flex;
 }
+.delete_box{
+    border:1px solid black;
+    margin: 5%;
+    display: flex;
+}

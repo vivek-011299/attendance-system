@@ -9,7 +9,7 @@ import (
 
 func GetAllStudents() []beans.Student {
 	var students []beans.Student
-	rows, err:= beans.Db.DB().Query("select * from Students")
+	rows, err:= beans.Db.DB().Query("select * from students")
 	if err!=nil{
 		log.Fatal(err)
 	}
@@ -61,4 +61,10 @@ func InsertStudent(student_obj beans.Student)string{
 	q := fmt.Sprintf("INSERT INTO students(name,class,age,phone) VALUES('%s',%s,%s,'%s')",name,class,age,phone)
 	beans.Db.Exec(q)
 	return "inserted"
+}
+
+func Delete_Student(stu_id int){
+	student_id := strconv.Itoa(stu_id)
+	beans.Db.Exec("DELETE from students where id="+student_id)
+	fmt.Println("deleted record with id "+student_id)
 }

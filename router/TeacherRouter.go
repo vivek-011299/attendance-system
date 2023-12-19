@@ -9,4 +9,5 @@ func TeacherRouter() {
 	Router.HandleFunc("/teacher/get_student", RestHandler.GetStudentbyID).Methods("GET")
 	Router.HandleFunc("/teacher/get_student_attendance", RestHandler.GetStudentAttendance).Methods("GET")
 	Router.HandleFunc("/teacher/create_student", RestHandler.CreateStudent).Methods("POST")
+	Router.HandleFunc("/teacher/delete_student", RestHandler.Delete_Student).Methods("DELETE")
 }

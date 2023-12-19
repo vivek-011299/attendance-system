@@ -62,3 +62,13 @@ func CreateStudent(w http.ResponseWriter, r *http.Request){
 	message := ServiceLayer.CreateStudent(student_obj)
 	fmt.Println("message from rest handler", message)
 }
+
+func Delete_Student(w http.ResponseWriter, r *http.Request){
+	u, err := url.Parse(r.URL.RequestURI())
+	if err!=nil{
+		log.Fatal("not able to get uri", err)
+	}
+	params, _ := url.ParseQuery(u.RawQuery)
+	student_id,_ := strconv.Atoi(params.Get("id"))
+	ServiceLayer.Delete_Student(student_id)
+}

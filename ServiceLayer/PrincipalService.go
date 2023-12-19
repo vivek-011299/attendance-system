@@ -33,3 +33,7 @@ func CreateTeacher(teacher_obj beans.Teacher) string{
 	}
 	return "inserted"
 }
+
+func Delete_Teacher(teacher_id int){
+	RepoLayer.Delete_Teacher(teacher_id)
+}

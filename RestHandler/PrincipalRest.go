@@ -8,6 +8,7 @@ import (
 	"my-project/beans"
 	"net/http"
 	"net/url"
+	"strconv"
 )
 
 
@@ -56,4 +57,14 @@ func CreateTeacher(w http.ResponseWriter, r *http.Request) {
 	message := ServiceLayer.CreateTeacher(teacher_obj)
 	fmt.Println(message)
 	json.NewEncoder(w).Encode(teacher_obj)
+}
+
+func Delete_Teacher(w http.ResponseWriter, r *http.Request){
+	u, err := url.Parse(r.URL.RequestURI())
+	if err!=nil{
+		fmt.Println("err in parsing", err)
+	}
+	params,_ := url.ParseQuery(u.RawQuery)
+	t_id,_ := strconv.Atoi(params.Get("id"))
+	ServiceLayer.Delete_Teacher(t_id) 
 }

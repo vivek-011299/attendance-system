@@ -3,6 +3,7 @@ package RepoLayer
 import (
 	"fmt"
 	"my-project/beans"
+	"strconv"
 )
 
 func PrincipalGetAllStudents() []beans.Student{
@@ -67,4 +68,11 @@ func InsertTeacher(t_obj beans.Teacher) {
 	phone := t_obj.PhoneNumber
 	query := fmt.Sprintf("INSERT INTO teachers(first_name,last_name,phone_number) VALUES('%s','%s','%s')",first_name,last_name,phone)
 	beans.Db.Exec(query)
+}
+
+func Delete_Teacher(teacher_id int){
+	t_id := strconv.Itoa(teacher_id)
+	beans.Db.Exec("DELETE from teachers where id="+t_id)
+
+	fmt.Println("deleted record with id "+t_id)
 }

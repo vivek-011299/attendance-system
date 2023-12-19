@@ -27,3 +27,7 @@ func CreateStudent(student_created_obj beans.Student) string{
 	msg := RepoLayer.InsertStudent(student_created_obj)
 	return msg
 }
+
+func Delete_Student(student_id int){
+	RepoLayer.Delete_Student(student_id)
+}

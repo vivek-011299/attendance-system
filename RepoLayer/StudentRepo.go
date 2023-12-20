@@ -43,18 +43,13 @@ func InsertPunchOut(student_obj beans.StudentAttendance) {
 }
 
 
-func SearchStudent(student_id int) []beans.Student{
-	var student_table []beans.Student
-	rows, err := beans.Db.DB().Query("SELECT * from students where id = "+ strconv.Itoa(student_id))
+func SearchStudent(student_id int) beans.Student{
+	var student_table beans.Student
+	row := beans.Db.DB().QueryRow("SELECT * from students where id = "+ strconv.Itoa(student_id))
+    err := row.Scan(&student_table.Id, &student_table.Name,&student_table.Class, &student_table.Age,&student_table.Phone)
 	if err!=nil{
-		log.Fatal("Error in searching student", err)
+		fmt.Println("err in scanning", err)
+		return beans.Student{}
 	}
-	for rows.Next() {
-        var stu_count beans.Student
-		if err := rows.Scan(&stu_count.Id, &stu_count.Name ,&stu_count.Class, &stu_count.Age, &stu_count.Phone); err != nil {
-            fmt.Println("error in scanning", err)
-        }
-        student_table = append(student_table, stu_count)
-    }
 	return student_table
 }

@@ -1,6 +1,7 @@
 package RestHandler
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"my-project/ServiceLayer"
@@ -51,11 +52,6 @@ func SearchStudent(w http.ResponseWriter, r *http.Request){
 	params, _ := url.ParseQuery(u.RawQuery)
 	id,_ := strconv.Atoi(params.Get("id"))
 	fmt.Println("id is ", id)
-	var flag bool = false
-	flag = ServiceLayer.SearchStudent(id)
-	if flag{
-		fmt.Printf("Student with id %d is present", id)
-	}else{
-		fmt.Printf("Student with id %d is not present", id)
-	}
+	student_search := ServiceLayer.SearchStudent(id)
+	json.NewEncoder(w).Encode(student_search)
 }

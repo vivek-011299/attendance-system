@@ -2,6 +2,8 @@ import './principalPage.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from 'react';
 import axios from 'axios';
+import { DialogBox } from '../dialog.js';
+
 function Principal(){
     const [firstname, set_firstname] = useState('');
     const [lastname, set_lastname] = useState('');
@@ -12,7 +14,23 @@ function Principal(){
     const [data_with_id, set_data_with_id] = useState({});
     const [teacher_data, set_teacher_data] = useState([]);
     const [teacher_id_data, set_teacher_id_data] = useState({});
-    //const [message, setmessage] = useState('');
+    const [delete_area, set_delete_area] = useState('');
+    const [delete_t_id, set_delete_t_id] = useState('');
+    const [state, setStateforDelete] = useState(false);
+
+    const setState = () =>{
+        if(state===true)
+        {
+            setStateforDelete(false);
+        }
+        else{
+            setStateforDelete(true);
+        }
+    }
+
+    const delete_teacher_box = (e) =>{
+        set_delete_t_id(e.target.value);
+    }
 
     const f_name = event =>{
         set_firstname(event.target.value);
@@ -70,6 +88,19 @@ function Principal(){
         .then((res)=>{
             console.log(res)
         })
+    }
+    const delete_teacher = () => {
+        if(delete_t_id!=='')
+        {
+            axios.delete("http://localhost:8000/principal/delete_teacher?id="+delete_t_id)
+            .then((res)=>{
+                set_delete_area('Deleted successfully')
+            })
+        }
+        else{
+            set_delete_area("Please provide an id to delete");
+        }
+        setState();
     }
     return(
         <>
@@ -159,6 +190,21 @@ function Principal(){
             </form>
             <button onClick={create_teacher} class="btn btn-info">Create</button>
             <button onClick={clear_function} class="btn btn-danger">Clear</button>
+        </div>
+        <div className='delete_box'>
+            <h3>Delete a teacher:</h3>
+            <input className='ipbox' value={delete_t_id} onChange={delete_teacher_box} placeholder='Enter the id here'></input>
+            <button onClick={delete_teacher} class="btn btn-danger">Delete</button>
+        
+        {   
+            delete_area!==''
+            &&
+            <div>
+                {
+                <DialogBox heading="Message" message={delete_area} state={state} openFunction={setState}/>
+                }
+            </div>
+        }
         </div>
         </>
     );

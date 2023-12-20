@@ -50,7 +50,7 @@ func StudentPunchout(student_obj beans.StudentAttendance){
 	}
 }
 
-func SearchStudent(stu_id int) bool{
+func SearchStudent(stu_id int) beans.Student{
 	student_object := RepoLayer.SearchStudent(stu_id)
-	return len(student_object)>0
+	return student_object
 }

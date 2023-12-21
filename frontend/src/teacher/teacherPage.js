@@ -72,10 +72,16 @@ function Teacher(){
         })
     }
     const get_student_attend_detail = () => {
-        axios.get("http://localhost:8000/teacher/get_student_attendance?id="+stu_attend)
-        .then((response)=>{
-            set_stu_attend_block(response.data)
-        })
+        if(stu_attend!=='')
+        {
+            axios.get("http://localhost:8000/teacher/get_student_attendance?id="+stu_attend)
+            .then((response)=>{
+                set_stu_attend_block(response.data)
+            })
+        }
+        else{
+            set_stu_attend_block([]);
+        }
     }
     const delete_student_box= (e) =>{
         set_delete_stu_id(e.target.value);
@@ -115,33 +121,81 @@ function Teacher(){
                 <h3>Get all Students:</h3>
                 <button onClick={getAllStudents} className='btn btn-primary'>Get all Students</button>     
         </div>
-        {
-            students_data.length!==0
-            &&
-            <div>
+        {   
+        students_data.length !==0
+         && 
+        <div className='get_students_box'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Age</th>
+                        <th>Phone Number</th>
+                     </tr>
+                </thead>
+                <tbody>
                 {
-                    students_data.map((data) => {
-                        return(
-                            <div>
-                                {data.name}
-                            </div>
-                        )
+                    students_data.map((data)=>{
+                        return (
+                                <tr>
+                                    <td>    
+                                        {data.roll}
+                                    </td>
+                                    <td>    
+                                        {data.name}
+                                    </td>
+                                    <td>    
+                                        {data.class}
+                                    </td>
+                                    <td>    
+                                        {data.age}
+                                    </td>
+                                    <td>    
+                                        {data.phone}
+                                    </td>
+                                </tr>
+                        );
+
                     })
-                }
-            </div>
-        }
+            }
+            
+            </tbody>
+        </table>
+        </div>
+}
         <div className='getStudent'>
             <h3>Get student details by roll number:</h3>
             <input className='ipbox' value={stu_id} onChange={setting_roll} placeholder='Enter the id here'></input>
             <button onClick={get_student_detail} class="btn btn-info">Search</button>
         </div>
         {
-            JSON.stringify(stu_detail)!=="{}"
+            JSON.stringify(stu_detail) !== "{}"
             &&
-            <div>
+            <div className='get_students_box'>
+                <table>
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Age</th>
+                        <th>Phone Number</th>
+                     </tr>
+                </thead>
+                <tbody>
                 {
-                    stu_detail.name
+                    <tr>
+                        <td>{stu_detail.roll}</td>
+                        <td>{stu_detail.name}</td>
+                        <td>{stu_detail.class}</td>
+                        <td>{stu_detail.age}</td>
+                        <td>{stu_detail.phone}</td>
+                    </tr>
                 }
+            </tbody>
+            </table>
             </div>
         }
         <div className='getStudentAttendance'>
@@ -152,20 +206,31 @@ function Teacher(){
         {
             stu_attend_block.length!==0
             &&
-            <div>
+        <div className='get_students_box'>
+                <table>
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Punchin</th>
+                        <th>Punch Out</th>
+                     </tr>
+                </thead>
+                <tbody>
                 {
                     stu_attend_block.map((data)=>{
                         return(
-                            <div>
-                                {data.roll},
-                                {data.punchin},
-                                {data.punchout}
-                            </div>
+                            <tr>
+                                <td>{data.roll}</td>
+                                <td>{data.punchin}</td>
+                                <td>{data.punchout}</td>
+                            </tr>
                         )
                     })
                 }
+        </tbody>
+            </table>
             </div>
-        }
+}
         <div className='createStudent'>
             <h3>Create student:</h3>
             <form>

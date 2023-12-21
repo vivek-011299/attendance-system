@@ -33,7 +33,7 @@ function Student(){
                 {
                     set_student_search_box('Student with id '+stu_id+' is present')
                 }
-                else{
+                else{ 
                     set_student_search_box('Student with id '+stu_id+' is NOT present')
                 }
             })

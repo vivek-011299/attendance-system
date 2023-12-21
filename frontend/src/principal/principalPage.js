@@ -110,17 +110,45 @@ function Principal(){
         </div>
         {all_data.length !==0
          && 
-        <div>
-        {
-                all_data.map((data)=>{
-                    return (
-                        <div>
-                            {data.roll}
-                        </div>
-                    );
+        <div className='get_students_box'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Age</th>
+                        <th>Phone Number</th>
+                     </tr>
+                </thead>
+                <tbody>
+                {
+                    all_data.map((data)=>{
+                        return (
+                                <tr>
+                                    <td>    
+                                        {data.roll}
+                                    </td>
+                                    <td>    
+                                        {data.name}
+                                    </td>
+                                    <td>    
+                                        {data.class}
+                                    </td>
+                                    <td>    
+                                        {data.age}
+                                    </td>
+                                    <td>    
+                                        {data.phone}
+                                    </td>
+                                </tr>
+                        );
 
-                })
+                    })
             }
+            
+            </tbody>
+        </table>
         </div>
 }
         <div className="get_id">
@@ -131,12 +159,29 @@ function Principal(){
         {
             JSON.stringify(data_with_id) !== "{}"
             &&
-            <div>
-            {
-                <div>
-                    {data_with_id.name}
-                </div>
-            }
+            <div className='get_students_box'>
+                <table>
+                <thead>
+                    <tr>
+                        <th>Roll Number</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Age</th>
+                        <th>Phone Number</th>
+                     </tr>
+                </thead>
+                <tbody>
+                {
+                    <tr>
+                        <td>{data_with_id.roll}</td>
+                        <td>{data_with_id.name}</td>
+                        <td>{data_with_id.class}</td>
+                        <td>{data_with_id.age}</td>
+                        <td>{data_with_id.phone}</td>
+                    </tr>
+                }
+            </tbody>
+            </table>
             </div>
         }
         
@@ -146,18 +191,33 @@ function Principal(){
         </div>
         {
             teacher_data.length!==0 &&
-            <div>
+            <div className='get_students_box'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone Number</th>
+                     </tr>
+                </thead>
+                <tbody>
                 {
                     teacher_data.map((data) => {
                         return (
-                        <div>
-                            {data.firstname}
-                        </div>
-                    )
+                            <tr>
+                                <td>{data.id}</td>
+                                <td>{data.firstname}</td>
+                                <td>{data.lastname}</td>
+                                <td>{data.phonenumber}</td>
+                            </tr>
+                    );
                 })
                 }
-            </div>
-        }
+        </tbody>
+        </table>
+        </div>
+    }
         <div className="get_id">
             <h3>Get Teacher with ID:</h3>
             <input value={emp_id} onChange={teacher_input} placeholder="Enter the teacher Employee id here"></input>
@@ -166,11 +226,28 @@ function Principal(){
         {
             JSON.stringify(teacher_id_data) !== "{}"
             &&
-            <div>
-                {
-                    teacher_id_data.firstname
-                }
-            </div>
+            <div className='get_students_box'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone Number</th>
+                     </tr>
+                </thead>
+                <tbody>
+                    {
+                        <tr>
+                            <td>{teacher_id_data.id}</td>
+                            <td>{teacher_id_data.firstname}</td>
+                            <td>{teacher_id_data.lastname}</td>
+                            <td>{teacher_id_data.phonenumber}</td>
+                        </tr>
+                    }
+                </tbody>
+                </table>
+                </div>
         }
         <div className="create_teacher">
             <h3>Create Teacher</h3>

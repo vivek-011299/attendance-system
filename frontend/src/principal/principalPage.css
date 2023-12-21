@@ -22,3 +22,13 @@ input:focus::-webkit-input-placeholder {
 .form-group{
     width: 50%;
 }
+.get_students_box{
+    border: 1px solid black;
+    margin: 5%;
+}
+table{
+    width: 50%;
+}
+table, td,th{
+    border: 1px solid black;
+}

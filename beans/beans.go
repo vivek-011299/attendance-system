@@ -1,8 +1,6 @@
 package beans
 
 import (
-	"time"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -23,8 +21,12 @@ type Teacher struct {
 
 type StudentAttendance struct {
 	StudentId int `json:"roll" gorm:"type:integer"`
-	PunchIn  time.Time `json:"punchin" gorm:"type:TIME"`
-	PunchOut time.Time `json:"punchout" gorm:"type:TIME"`
+	PunchIn  string `json:"punchin" gorm:"type:varchar(40)"`
+	PunchOut string `json:"punchout" gorm:"type:varchar(40)"`
+}
+
+type MessageBox struct {
+	Message string `json:"message"`
 }
 
 var Db *gorm.DB

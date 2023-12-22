@@ -26,7 +26,7 @@ func GetAllStudents() []beans.Student {
 
 func GetStudentAttendance(student_id int) []beans.StudentAttendance{
 	var student_attendance_details []beans.StudentAttendance
-	rows, err := beans.Db.DB().Query("Select * from student_attendance where roll = "+ strconv.Itoa(student_id))
+	rows, err := beans.Db.DB().Query("Select * from student_attendances where roll = "+ strconv.Itoa(student_id))
 
 	if err!=nil{
 		log.Fatal("error in rows", err)

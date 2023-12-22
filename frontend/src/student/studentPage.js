@@ -9,6 +9,19 @@ function Student(){
     const [student_search_box, set_student_search_box]  = useState('');
     const [state, setStateSearch] = useState(false);
 
+    const punchin = () => {
+        if(stu_id!=='')
+        {
+            axios.post("http://localhost:8000/student/punchin", {
+                "roll":stu_id,
+                "punchin":new Date().toLocaleDateString(),
+                "punchout":new Date().toLocaleDateString(),
+            })
+        }
+    }
+    const punchout = () =>{
+
+    }
 
     const stu_id_change = (e) => {
         set_stu_id(e.target.value);
@@ -58,8 +71,8 @@ function Student(){
             </div>
         }
         <div className='pipout-buttons'>
-            <button class="btn btn-primary">Punchin</button>
-            <button class="btn btn-danger">Punchout</button>
+            <button onClick={punchin} class="btn btn-primary">Punchin</button>
+            <button onClick={punchout} class="btn btn-danger">Punchout</button>
         </div>
         </>
     );

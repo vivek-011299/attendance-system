@@ -9,37 +9,28 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
-	"time"
 )
 
 func StudentPunchin(w http.ResponseWriter, r *http.Request){
-	u, err:= url.Parse(r.URL.RequestURI())
+	var stu_punchin_obj beans.StudentAttendance
+	err := json.NewDecoder(r.Body).Decode(&stu_punchin_obj)
 	if err!=nil{
-		log.Fatal(err)
+		fmt.Println("err in decoding obj", err)
 	}
-	params,_ := url.ParseQuery(u.RawQuery)
-	fmt.Println(params["id"])
-	stu_id,_ := strconv.Atoi(params.Get("id"))
-	student_punchin_obj := beans.StudentAttendance{
-		StudentId: stu_id,
-		PunchIn: time.Now(),
-	}
-	ServiceLayer.StudentPunchin(student_punchin_obj)
+	var msg_obj beans.MessageBox
+	msg_obj.Message = ServiceLayer.StudentPunchin(stu_punchin_obj)
+	json.NewEncoder(w).Encode(msg_obj)
 }
 
 func StudentPunchout(w http.ResponseWriter, r *http.Request){
-		u,err := url.Parse(r.URL.RequestURI())
-		if err!=nil{
-			log.Fatal("error in student punchout", err)
-		}
-		params, _ := url.ParseQuery(u.RawQuery)
-		fmt.Println(params)
-		stu_id,_ := strconv.Atoi(params.Get("id"))
-		student_punchout_obj := beans.StudentAttendance{
-			StudentId: stu_id,
-			PunchOut: time.Now(),
-		}
-		ServiceLayer.StudentPunchout(student_punchout_obj)
+	var stu_punchin_obj beans.StudentAttendance
+	err := json.NewDecoder(r.Body).Decode(&stu_punchin_obj)
+	if err!=nil{
+		fmt.Println("err in decoding obj during punchout", err)
+	}
+	var msg_obj beans.MessageBox
+	msg_obj.Message = ServiceLayer.StudentPunchout(stu_punchin_obj)
+	json.NewEncoder(w).Encode(msg_obj)
 }
 
 func SearchStudent(w http.ResponseWriter, r *http.Request){

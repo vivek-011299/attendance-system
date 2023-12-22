@@ -9,22 +9,23 @@ import (
 
 	
 func InsertPunchin_time(student_obj beans.StudentAttendance){
-	beans.Db.Exec("INSERT INTO student_attendance (roll, punchin) VALUES (?, ?)",student_obj.StudentId, student_obj.PunchIn )
+	query := fmt.Sprintf("INSERT INTO student_attendances VALUES (%d, '%s', '%s')",student_obj.StudentId, student_obj.PunchIn, student_obj.PunchOut)
+	beans.Db.Exec(query)
 }
 
 
 func Get_recent_attendance_record(student_id int) beans.StudentAttendance{
 	dayRecord := beans.StudentAttendance{}
-	query := fmt.Sprintf("SELECT * FROM student_attendance where roll = %d order by punchin desc limit 1 ", student_id)
+	query := fmt.Sprintf("SELECT * FROM student_attendances where student_id = %d order by punch_in desc limit 1 ", student_id)
 	beans.Db.Raw(query).Scan(&dayRecord)
 	return dayRecord
 }
 
 func Count_of_records(student_id int) []beans.StudentAttendance{
 	var stu_count_obj []beans.StudentAttendance
-	rows, err := beans.Db.DB().Query("SELECT roll, punchin FROM student_attendance WHERE roll = "+ strconv.Itoa(student_id))
+	rows, err := beans.Db.DB().Query("SELECT student_id, punch_in FROM student_attendances WHERE student_id = "+ strconv.Itoa(student_id))
 	if err!=nil{
-		log.Fatal("Error is ", err)
+		log.Fatal("Error is here", err)
 	}
 	for rows.Next() {
         var stu_count beans.StudentAttendance
@@ -39,7 +40,8 @@ func Count_of_records(student_id int) []beans.StudentAttendance{
 
 
 func InsertPunchOut(student_obj beans.StudentAttendance) {
-	beans.Db.Exec("UPDATE student_attendance SET punchout = ? WHERE roll = ?",student_obj.PunchOut, student_obj.StudentId)
+	query := fmt.Sprintf("UPDATE student_attendances SET punch_out = '%s' WHERE student_id = %d",student_obj.PunchOut, student_obj.StudentId)
+	beans.Db.Exec(query)
 }
 
 
@@ -48,7 +50,6 @@ func SearchStudent(student_id int) beans.Student{
 	row := beans.Db.DB().QueryRow("SELECT * from students where id = "+ strconv.Itoa(student_id))
     err := row.Scan(&student_table.Id, &student_table.Name,&student_table.Class, &student_table.Age,&student_table.Phone)
 	if err!=nil{
-		fmt.Println("err in scanning", err)
 		return beans.Student{}
 	}
 	return student_table

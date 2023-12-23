@@ -43,7 +43,7 @@ func StudentPunchout(student_obj beans.StudentAttendance) string{
 				flag=false
 			}
 		}
-		if flag{
+		if !flag{
 			RepoLayer.InsertPunchOut(student_obj)
 			return "Inserted"
 		}else{

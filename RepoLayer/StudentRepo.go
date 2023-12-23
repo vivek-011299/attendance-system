@@ -23,13 +23,13 @@ func Get_recent_attendance_record(student_id int) beans.StudentAttendance{
 
 func Count_of_records(student_id int) []beans.StudentAttendance{
 	var stu_count_obj []beans.StudentAttendance
-	rows, err := beans.Db.DB().Query("SELECT student_id, punch_in FROM student_attendances WHERE student_id = "+ strconv.Itoa(student_id))
+	rows, err := beans.Db.DB().Query("SELECT student_id, punch_in, punch_out FROM student_attendances WHERE student_id = "+ strconv.Itoa(student_id))
 	if err!=nil{
 		log.Fatal("Error is here", err)
 	}
 	for rows.Next() {
         var stu_count beans.StudentAttendance
-		if err := rows.Scan(&stu_count.StudentId, &stu_count.PunchIn); err != nil {
+		if err := rows.Scan(&stu_count.StudentId, &stu_count.PunchIn, &stu_count.PunchOut); err != nil {
             fmt.Println("error in scanning", err)
         }
         stu_count_obj = append(stu_count_obj, stu_count)
@@ -40,7 +40,7 @@ func Count_of_records(student_id int) []beans.StudentAttendance{
 
 
 func InsertPunchOut(student_obj beans.StudentAttendance) {
-	query := fmt.Sprintf("UPDATE student_attendances SET punch_out = '%s' WHERE student_id = %d",student_obj.PunchOut, student_obj.StudentId)
+	query := fmt.Sprintf("UPDATE student_attendances SET punch_out = '%s' WHERE student_id = %d and punch_out='0'",student_obj.PunchOut, student_obj.StudentId)
 	beans.Db.Exec(query)
 }
 

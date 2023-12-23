@@ -8,19 +8,35 @@ function Student(){
     const [stu_id, set_stu_id] = useState('');
     const [student_search_box, set_student_search_box]  = useState('');
     const [state, setStateSearch] = useState(false);
+    const [msg, set_msg] = useState('');
 
     const punchin = () => {
         if(stu_id!=='')
         {
+            const date = new Date();
+
             axios.post("http://localhost:8000/student/punchin", {
-                "roll":stu_id,
-                "punchin":new Date().toLocaleDateString(),
-                "punchout":new Date().toLocaleDateString(),
+                "roll": parseInt(stu_id),
+                "punchin":date.getHours()+":"+date.getMinutes()+":"+date.getSeconds(),
+                "punchout":'0',
+            })
+            .then((res)=>{
+                set_msg('Student punched in')
             })
         }
     }
     const punchout = () =>{
-
+        if(stu_id!=='')
+        {
+            const date = new Date();
+            axios.post("http://localhost:8000/student/punchout",{
+                "roll":parseInt(stu_id),
+                "punchout":date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
+            })
+            .then((res)=>{
+                set_msg('Student punched out')
+            })
+        }
     }
 
     const stu_id_change = (e) => {
@@ -74,6 +90,13 @@ function Student(){
             <button onClick={punchin} class="btn btn-primary">Punchin</button>
             <button onClick={punchout} class="btn btn-danger">Punchout</button>
         </div>
+        {
+            msg!==''
+            &&
+            <div>
+                <h4>{msg}</h4>
+            </div>
+        }
         </>
     );
 }

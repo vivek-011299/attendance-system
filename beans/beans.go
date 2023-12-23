@@ -20,7 +20,7 @@ type Teacher struct {
 }
 
 type StudentAttendance struct {
-	StudentId int `json:"roll" gorm:"type:integer"`
+	StudentId int `json:"roll"`
 	PunchIn  string `json:"punchin" gorm:"type:varchar(40)"`
 	PunchOut string `json:"punchout" gorm:"type:varchar(40)"`
 }

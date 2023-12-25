@@ -87,13 +87,19 @@ function Student(){
             </div>
         }
         <div className='pipout-buttons'>
-            <button onClick={punchin} class="btn btn-primary">Punchin</button>
-            <button onClick={punchout} class="btn btn-danger">Punchout</button>
+            {
+                student_search_box.includes('is present')===true
+                &&
+                <div>
+                <button onClick={punchin} class="btn btn-primary">Punchin</button>
+                <button onClick={punchout} class="btn btn-danger">Punchout</button>
+                </div>
+            }
         </div>
         {
             msg!==''
             &&
-            <div>
+            <div className='msg_box'>
                 <h4>{msg}</h4>
             </div>
         }

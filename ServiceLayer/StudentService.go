@@ -22,9 +22,9 @@ func StudentPunchin(student_obj beans.StudentAttendance) string{
 		}
 		if flag{
 			RepoLayer.InsertPunchin_time(student_obj)
-			return "Inserted"
+			return "Punched in"
 		}
-		return "Error in inserting"
+		return "Punch out first for the previous day!"
 	}
 }
 
@@ -45,9 +45,9 @@ func StudentPunchout(student_obj beans.StudentAttendance) string{
 		}
 		if !flag{
 			RepoLayer.InsertPunchOut(student_obj)
-			return "Inserted"
+			return "Punched out"
 		}else{
-			return "Error in inserting punchout time"
+			return "Please punch in for the day before punching out!"
 		}
 	}
 }

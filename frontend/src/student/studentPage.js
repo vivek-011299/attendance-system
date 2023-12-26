@@ -9,7 +9,18 @@ function Student(){
     const [student_search_box, set_student_search_box]  = useState('');
     const [state, setStateSearch] = useState(false);
     const [msg, set_msg] = useState('');
+    const [state_punch, set_state_punch] = useState(false);
+    const [head,set_head] = useState('');
 
+
+    const punch_state = () =>{
+        if(state_punch===true)
+        {
+            set_state_punch(false);
+        }
+        else
+            set_state_punch(true);
+    }
     const punchin = () => {
         if(stu_id!=='')
         {
@@ -21,9 +32,17 @@ function Student(){
                 "punchout":'0',
             })
             .then((res)=>{
-                set_msg('Student punched in')
+                set_msg(res.data['message'])
+                if(res.data['message']==="Punched in")
+                {
+                    set_head("Success!")
+                }
+                else{
+                    set_head('Error');
+                }
             })
         }
+        set_state_punch(true)
     }
     const punchout = () =>{
         if(stu_id!=='')
@@ -34,9 +53,17 @@ function Student(){
                 "punchout":date.getHours()+":"+date.getMinutes()+":"+date.getSeconds()
             })
             .then((res)=>{
-                set_msg('Student punched out')
+                set_msg(res.data['message'])
+                if(res.data['message']==='Punched out')
+                {
+                    set_head("Success!")
+                }
+                else{
+                    set_head('Error');
+                }
             })
         }
+        set_state_punch(true)
     }
 
     const stu_id_change = (e) => {
@@ -58,6 +85,7 @@ function Student(){
         {
             axios.get("http://localhost:8000/student/search?id="+stu_id)
             .then((res)=>{
+                console.log(res.data)
                 if(res.data['roll']!==0)
                 {
                     set_student_search_box('Student with id '+stu_id+' is present')
@@ -82,7 +110,7 @@ function Student(){
         {
             <div className='SearchText'>
                 {
-                    <DialogBox heading="message" message={student_search_box} state={state} openFunction={setState}/>
+                    <DialogBox heading="Message" message={student_search_box} state={state} openFunction={setState}/>
                 }
             </div>
         }
@@ -99,8 +127,8 @@ function Student(){
         {
             msg!==''
             &&
-            <div className='msg_box'>
-                <h4>{msg}</h4>
+            <div>
+                <DialogBox heading={head} message={msg} openFunction={punch_state} state={state_punch} />
             </div>
         }
         </>

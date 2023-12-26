@@ -16,9 +16,3 @@
     margin-top: 2%;
     text-align: center;
 }
-.msg_box{
-    display: flex;
-    border: 1px solid black;
-    margin: 5%;
-    text-align: center;
-}

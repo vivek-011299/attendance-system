@@ -14,4 +14,5 @@ func InitRouters(){
 	StudentRouter()
 	TeacherRouter()
 	PrincipalRouter()
+	LoginButton()
 }
